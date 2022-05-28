@@ -1,18 +1,14 @@
 from itertools import product
 import networkx as nx
+from networkx import DiGraph
 
 
-def generate_largest_Subgraph_of_size_n(n: int):
-    print("Generating largest graph of size n")
-    g = nx.DiGraph()
-    g.add_nodes_from(range(1, n + 1))
-    for first_node in g.nodes:
-        for second_node in (node for node in g.nodes if node != first_node):
-            g.add_edge(first_node, second_node)
-    return g
-
-
-def generate_digraphs(n):
+def generate_all_graphs_of_size_k(n: int):
+    """this function returns all the distinct(no isomorphic) weakly connected sub-graphs of size n
+    :param n:the size of all sub-graphs(number of nodes)
+    :type n:int
+    :return:all weakly connected sub-graphs of size n
+    :rtype:[list] contain objects of DiGraph"""
     connected_graphs = []
     nodes = [x for x in range(n)]  # generating all nodes
     all_possible_edges = product(nodes,
@@ -39,4 +35,28 @@ def generate_digraphs(n):
     return connected_graphs
 
 
-print(len(generate_digraphs(4)))
+def write_all_graphs(list_of_graphs: list, size_of_graph: int, file_name: str):
+    """this function writes a list of sub-graphs into file with the requested format
+    :param list_of_graphs:list of all DiGraph to write
+    :type list_of_graphs:list
+    :param size_of_graph:the number of nodes each graph has
+    :type size_of_graph:int
+    :param file_name:the name of the file to write 2(including .txt)
+    :type file_name:str"""
+    with open(file_name, 'w') as f:
+        f.write(f"n={size_of_graph}\n")
+        f.write(f"count={len(list_of_graphs)}\n")
+    count = 1
+    graph: DiGraph
+    for graph in list_of_graphs:
+        with open(file_name, 'a') as f:
+            f.write(f"#{count}\n")
+            count += 1
+        for edge1, edge2 in graph.edges:
+            with open(file_name, 'a') as f:
+                f.write(f"{edge1} {edge2}\n")
+
+
+if __name__ == '__main__':
+    digraph = generate_all_graphs_of_size_k(4)
+    write_all_graphs(digraph, 4, "size4.txt")
