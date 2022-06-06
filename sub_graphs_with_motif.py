@@ -17,7 +17,6 @@ def create_graph_from_file(path_to_file: str):
             line_list[1] = line_list[1].replace("\n","")
             line_list[0]= int(line_list[0])
             line_list[1]= int(line_list[1])
-
             temp = iter(line_list)
             edges.append(*zip(temp,temp))
 
