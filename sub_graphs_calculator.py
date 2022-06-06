@@ -58,5 +58,5 @@ def write_all_graphs(list_of_graphs: list, size_of_graph: int, file_name: str):
 
 
 if __name__ == '__main__':
-    digraph = generate_all_graphs_of_size_k(4)
-    write_all_graphs(digraph, 4, "size4.txt")
+    digraph = generate_all_graphs_of_size_k(1)
+    write_all_graphs(digraph, 1, "size1.txt")
