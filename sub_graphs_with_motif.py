@@ -3,6 +3,27 @@ import networkx as nx
 from networkx import DiGraph
 from sub_graphs_calculator import generate_all_graphs_of_size_k
 
+def create_graph_from_file(path_to_file: str):
+    """
+    this function create a graph from a txt file of edges
+    :param path_to_file: name of the file containting the edges
+    :return: graph G
+    """
+    edges = []
+
+    with open(path_to_file,'r') as f:
+        for line in f:
+            line_list = line.split(" ")
+            line_list[1] = line_list[1].replace("\n","")
+            line_list[0]= int(line_list[0])
+            line_list[1]= int(line_list[1])
+
+            temp = iter(line_list)
+            edges.append(*zip(temp,temp))
+
+    G = nx.DiGraph()
+    G.add_edges_from(edges)
+    return G
 
 def get_motif_list (graph: DiGraph):
     motif_list = []
@@ -71,12 +92,11 @@ def write_with_motif(motif_list: list, n: int, file_name: str):
 
 if __name__ == '__main__':
 
-
-    edges = [(1,2),(1,3)]
-    G = nx.DiGraph()
-    G.add_edges_from(edges)
-
+    G = create_graph_from_file("motif.txt")
     motif_list = get_motif_list(G)
-    write_with_motif(motif_list,4,"motif.txt")
+    write_with_motif(motif_list,4,"with_motif.txt")
+
+
+
 
 
